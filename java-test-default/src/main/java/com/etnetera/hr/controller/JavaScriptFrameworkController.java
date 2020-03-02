@@ -10,6 +10,9 @@ import com.etnetera.hr.data.JavaScriptFramework;
 import com.etnetera.hr.repository.JavaScriptFrameworkRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,7 +49,7 @@ public class JavaScriptFrameworkController extends EtnRestController {
 
     @PutMapping("/frameworks/{frameworkId}")
     public JavaScriptFramework updateFramework(@PathVariable long frameworkId, String name, double version,
-                                               LocalDate deprecationDate, int hypeLevel, JavaScriptFramework frameworkToUpdate) throws Exception{
+                                               LocalDate deprecationDate, int hypeLevel, JavaScriptFramework frameworkToUpdate) throws Exception {
         if (!repository.existsById(frameworkId)) {
             throw new NotFoundException("Framework has to exist in the database!");
         }
@@ -60,8 +63,20 @@ public class JavaScriptFrameworkController extends EtnRestController {
     }
 
     @DeleteMapping("/frameworks/{frameworkId}")
-    public void deleteFramework(@PathVariable long frameworkId){
+    public void deleteFramework(@PathVariable long frameworkId) {
         repository.deleteById(frameworkId);
+    }
+
+    @GetMapping("/frameworks/search")
+    public List<JavaScriptFramework> searchInFrameworks(String keyword) {
+        Iterable<JavaScriptFramework> frameworks = repository.findAll();
+        List<JavaScriptFramework> result = new ArrayList<>();
+        for (JavaScriptFramework framework : frameworks) {
+            if (framework.getName().contains(keyword)) {
+                result.add(framework);
+            }
+        }
+        return result;
     }
 
 }
