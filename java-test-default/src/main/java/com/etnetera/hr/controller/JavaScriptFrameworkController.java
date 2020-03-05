@@ -36,34 +36,33 @@ public class JavaScriptFrameworkController extends EtnRestController {
     }
 
     @GetMapping("frameworks/{frameworkId}")
-    public Optional<JavaScriptFramework> framework(@PathVariable long frameworkId) {
+    public Optional<JavaScriptFramework> framework(@PathVariable Long frameworkId) {
         return repository.findById(frameworkId);
     }
 
     @PostMapping("/frameworks")
-    public JavaScriptFramework saveFramework(String name, double version, LocalDate deprecationDate, int hypeLevel) {
-        JavaScriptFramework frameworkToSave = new JavaScriptFramework(name, version, deprecationDate, hypeLevel);
+    public ResponseEntity saveFramework(String name, Float version, Integer hypeLevel) {
+        JavaScriptFramework frameworkToSave = new JavaScriptFramework(name, version, hypeLevel);
         repository.save(frameworkToSave);
-        return frameworkToSave;
+        return ResponseEntity.ok(frameworkToSave);
     }
 
     @PutMapping("/frameworks/{frameworkId}")
-    public JavaScriptFramework updateFramework(@PathVariable long frameworkId, String name, double version,
-                                               LocalDate deprecationDate, int hypeLevel, JavaScriptFramework frameworkToUpdate) throws Exception {
+    public JavaScriptFramework updateFramework(@PathVariable Long frameworkId, String name, Float version,
+                                               Integer hypeLevel, JavaScriptFramework frameworkToUpdate) throws Exception {
         if (!repository.existsById(frameworkId)) {
             throw new NotFoundException("Framework has to exist in the database!");
         }
         //JavaScriptFramework frameworkToUpdate = repository.findById(frameworkId);
         frameworkToUpdate.setName(name);
         frameworkToUpdate.setVersion(version);
-        frameworkToUpdate.setDeprecationDate(deprecationDate);
         frameworkToUpdate.setHypeLevel(hypeLevel);
         repository.save(frameworkToUpdate);
         return frameworkToUpdate;
     }
 
     @DeleteMapping("/frameworks/{frameworkId}")
-    public void deleteFramework(@PathVariable long frameworkId) {
+    public void deleteFramework(@PathVariable Long frameworkId) {
         repository.deleteById(frameworkId);
     }
 

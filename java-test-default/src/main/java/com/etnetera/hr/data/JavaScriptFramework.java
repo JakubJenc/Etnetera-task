@@ -24,25 +24,20 @@ public class JavaScriptFramework {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = false, length = 6)
-    private double version;
+    private Float version;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deprecationDate;
 
-    private int hypeLevel;
+    private Integer hypeLevel;
 
     public JavaScriptFramework() {
     }
 
-    public JavaScriptFramework(String name) {
-        this.name = name;
-    }
-
-    public JavaScriptFramework(String name, double version, LocalDate deprecationDate, int hypeLevel) {
+    public JavaScriptFramework(String name, Float version, Integer hypeLevel) {
         this.name = name;
         this.version = version;
-        this.deprecationDate = deprecationDate;
+        this.deprecationDate = LocalDate.now();
         this.hypeLevel = hypeLevel;
     }
 
@@ -50,7 +45,7 @@ public class JavaScriptFramework {
         return version;
     }
 
-    public void setVersion(double version) {
+    public void setVersion(Float version) {
         this.version = version;
     }
 
@@ -62,7 +57,7 @@ public class JavaScriptFramework {
         this.deprecationDate = deprecationDate;
     }
 
-    public int getHypeLevel() {
+    public Integer getHypeLevel() {
         return hypeLevel;
     }
 
