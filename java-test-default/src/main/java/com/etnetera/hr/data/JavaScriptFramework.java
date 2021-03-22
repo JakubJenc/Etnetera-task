@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Simple data entity describing basic properties of every JavaScript framework.
@@ -24,28 +25,38 @@ public class JavaScriptFramework {
     @Column(nullable = false, length = 30)
     private String name;
 
-    private Float version;
+    @Column(nullable = true)
+    private String version;
 
+    @Column(nullable = true)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate deprecationDate;
 
+    @Column(nullable = true)
     private Integer hypeLevel;
 
     public JavaScriptFramework() {
     }
 
-    public JavaScriptFramework(String name, Float version, Integer hypeLevel) {
+    public JavaScriptFramework(String name, String version, LocalDate deprecationDate, Integer hypeLevel) {
         this.name = name;
         this.version = version;
-        this.deprecationDate = LocalDate.now();
+        this.deprecationDate = deprecationDate;
         this.hypeLevel = hypeLevel;
     }
 
-    public double getVersion() {
+    public JavaScriptFramework(String name) {
+        this.name = name;
+        if (version == null) {
+            this.version = "1.0.SNAPSHOT";
+        }
+    }
+
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion(Float version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 
@@ -83,7 +94,7 @@ public class JavaScriptFramework {
 
     @Override
     public String toString() {
-        return "JavaScriptFramework [id=" + id + ", name=" + name + "]";
+        return "JavaScriptFramework [id=" + id + ", name=" + name + ", version=" + version + ", deprecationDate=" + deprecationDate + ", hypeLevel=" + hypeLevel + "]";
     }
 
 }
