@@ -54,23 +54,22 @@ public class JavaScriptFrameworkController extends EtnRestController {
     }
 
     @PutMapping("/frameworks/{frameworkId}")
-    public JavaScriptFramework updateFramework(@PathVariable Long frameworkId, JavaScriptFramework model) throws Exception {
+    public JavaScriptFramework updateFramework(@PathVariable Long frameworkId, String name, String version, LocalDate deprecationDate, Integer hypeLevel, JavaScriptFramework frameworkToUpdate) throws Exception {
         if (!repository.existsById(frameworkId)) {
             throw new NotFoundException("Framework has to exist in the database!");
         }
         if (repository.existsById(frameworkId)) {
-            JavaScriptFramework frameworkToUpdate = repository.findById(frameworkId).get();
-            if (model.getVersion() != null) {
-                frameworkToUpdate.setVersion(model.getVersion());
+            if (version != null) {
+                frameworkToUpdate.setVersion(version);
             }
-            if (model.getDeprecationDate() != null) {
-                frameworkToUpdate.setDeprecationDate(model.getDeprecationDate());
+            if (deprecationDate != null) {
+                frameworkToUpdate.setDeprecationDate(deprecationDate);
             }
-            if (model.getHypeLevel() != null) {
-                frameworkToUpdate.setHypeLevel(model.getHypeLevel());
+            if (hypeLevel != null) {
+                frameworkToUpdate.setHypeLevel(hypeLevel);
             }
-            if (model.getName() == null) {
-                frameworkToUpdate.setName(model.getName());
+            if (name == null) {
+                frameworkToUpdate.setName(name);
             }
             repository.save(frameworkToUpdate);
             return frameworkToUpdate;
